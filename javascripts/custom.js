@@ -251,15 +251,15 @@ function handleTocLinkClick(event) {
   }
 }
 
-// FIXED: Function to manage which links are "active" - only activate clicked tab
+// FIXED: Function to manage which links are "active" - keep clicked tab blue while on that page
 function updateActiveLinks(currentPath) {
   const allNavLinks = document.querySelectorAll('.nav-links a');
   const allTocLinks = document.querySelectorAll('.toc-list a');
   
-  // Reset ALL navigation links to default state (no exceptions)
+  // Reset ALL navigation links to default state first
   allNavLinks.forEach(link => {
     link.classList.remove('active');
-    link.style.background = '';
+    link.style.background = 'transparent';
     link.style.color = '#e2e8f0'; // Default light color
     link.style.transform = 'translateY(0) scale(1)';
     link.style.animation = '';
@@ -272,8 +272,29 @@ function updateActiveLinks(currentPath) {
     link.classList.remove('active');
   });
 
-  // NOTE: Do not automatically set any tab as active based on URL
-  // Tabs will only become active when user clicks on them
+  try {
+    // Find and keep the current page tab blue
+    allNavLinks.forEach(link => {
+      const linkPath = new URL(link.href).pathname;
+      // Normalize paths for comparison
+      const normalizedLinkPath = linkPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
+      const normalizedCurrentPath = currentPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
+      
+      if (normalizedLinkPath === normalizedCurrentPath || 
+          (normalizedCurrentPath.endsWith('/index.html') && normalizedLinkPath === '/') ||
+          (normalizedCurrentPath === '/' && normalizedLinkPath.endsWith('/index.html'))) {
+        
+        // Keep the current page tab blue
+        link.classList.add('active');
+        link.style.background = '#6366f1';
+        link.style.color = 'white';
+        link.style.transform = 'translateY(-1px) scale(1)';
+        link.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
+      }
+    });
+  } catch (e) {
+    console.warn('Error comparing URLs:', e);
+  }
 }
 
 // Global state management
@@ -672,15 +693,21 @@ function createHeader() {
       border: 1px solid transparent;
     `;
     
-    // DO NOT apply blue styling to any tab initially
-    // All tabs start in default state
+    // Check if this tab should be blue based on current page
+    if (link.key === currentPage) {
+      a.classList.add('active');
+      a.style.background = '#6366f1';
+      a.style.color = 'white';
+      a.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
+      a.style.transform = 'translateY(-1px) scale(1)';
+    }
 
     a.addEventListener('mouseenter', handleButtonHover);
     a.addEventListener('mouseleave', handleButtonLeave);
     a.addEventListener('mousedown', handleButtonPress);
     a.addEventListener('mouseup', handleButtonRelease);
 
-    // FIXED: Click handler to only make clicked tab blue
+    // FIXED: Click handler to make clicked tab blue and keep it blue
     a.addEventListener('click', function(e) {
       // Reset ALL navigation links to default state first
       const allNavLinks = nav.querySelectorAll('a');
@@ -692,7 +719,7 @@ function createHeader() {
         navLink.style.boxShadow = '';
       });
       
-      // Make ONLY the clicked tab blue
+      // Make ONLY the clicked tab blue and keep it blue
       this.classList.add('active');
       this.style.background = '#6366f1';
       this.style.color = 'white';
