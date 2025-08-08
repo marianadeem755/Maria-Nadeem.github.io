@@ -47,8 +47,8 @@ async function handleNavClick(event) {
   // Use pushState to update the URL in the browser without a reload
   window.history.pushState({}, '', absoluteUrl);
 
-  // Load new content
-  await loadNewContent(targetUrl);
+  // Load new content using the original href attribute
+  await loadNewContent(event.currentTarget.getAttribute('href'));
 
   // Update active state of links with the consistent URL
   updateActiveLinks(absoluteUrl);
