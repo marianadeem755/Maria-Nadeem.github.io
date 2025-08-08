@@ -19,11 +19,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to handle link clicks and prevent default reload
+// Function to handle link clicks and prevent default reload
 async function handleNavClick(event) {
   event.preventDefault();
 
   const targetUrl = event.currentTarget.getAttribute('href');
   if (!targetUrl || targetUrl.startsWith('#')) return; // Ignore anchor links
+
+  // Construct a consistent, absolute URL for pushState
+  let absoluteUrl = new URL(targetUrl, window.location.origin).pathname;
+
+  // Ensure root path is consistent
+  if (absoluteUrl === '/' || absoluteUrl === '/index.html') {
+    absoluteUrl = '/';
+  }
 
   // Add loading animation to clicked button
   const clickedButton = event.currentTarget;
@@ -36,19 +45,17 @@ async function handleNavClick(event) {
   }, 150);
 
   // Use pushState to update the URL in the browser without a reload
-  window.history.pushState({}, '', targetUrl);
+  window.history.pushState({}, '', absoluteUrl);
 
   // Load new content
   await loadNewContent(targetUrl);
 
-  // Update active state of links
-  updateActiveLinks(targetUrl);
+  // Update active state of links with the consistent URL
+  updateActiveLinks(absoluteUrl);
 
   // Re-run the TOC and other init functions after content loads
-  // This is a crucial fix for the flickering issue
   setTimeout(createLeftSidebarTOC, 100);
 }
-
 // Function to fetch and replace page content
 async function loadNewContent(url, scrollToTop = true) {
   try {
