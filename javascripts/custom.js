@@ -19,19 +19,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to handle link clicks and prevent default reload
-// Function to handle link clicks and prevent default reload
 async function handleNavClick(event) {
   event.preventDefault();
 
   const targetUrl = event.currentTarget.getAttribute('href');
   if (!targetUrl || targetUrl.startsWith('#')) return; // Ignore anchor links
 
-  // Construct a consistent, absolute URL for pushState
-  let absoluteUrl = new URL(targetUrl, window.location.origin).pathname;
+  // Get repository name from current URL for GitHub Pages
+  const pathSegments = window.location.pathname.split('/').filter(segment => segment);
+  const repoName = pathSegments[0] || ''; // First segment is usually the repo name
+  
+  // Construct proper GitHub Pages URL
+  let absoluteUrl;
+  if (window.location.hostname.includes('github.io')) {
+    // GitHub Pages URL structure: username.github.io/repository-name/
+    absoluteUrl = `/${repoName}/${targetUrl}`;
+  } else {
+    // Local development or custom domain
+    absoluteUrl = `/${targetUrl}`;
+  }
 
   // Ensure root path is consistent
-  if (absoluteUrl === '/' || absoluteUrl === '/index.html') {
-    absoluteUrl = '/';
+  if (targetUrl === 'index.html') {
+    if (window.location.hostname.includes('github.io') && repoName) {
+      absoluteUrl = `/${repoName}/`;
+    } else {
+      absoluteUrl = '/';
+    }
   }
 
   // Add loading animation to clicked button
@@ -48,7 +62,7 @@ async function handleNavClick(event) {
   window.history.pushState({}, '', absoluteUrl);
 
   // Load new content using the original href attribute
-  await loadNewContent(event.currentTarget.getAttribute('href'));
+  await loadNewContent(targetUrl);
 
   // Update active state of links with the consistent URL
   updateActiveLinks(absoluteUrl);
@@ -56,11 +70,11 @@ async function handleNavClick(event) {
   // Re-run the TOC and other init functions after content loads
   setTimeout(createLeftSidebarTOC, 100);
 }
+
 // Function to fetch and replace page content
 async function loadNewContent(url, scrollToTop = true) {
   try {
     // Determine the base path for fetching content
-    // This removes the leading '/' to make the path relative
     let path = url.startsWith('/') ? url.substring(1) : url;
 
     // Handle the root path specifically for index.html
@@ -71,9 +85,19 @@ async function loadNewContent(url, scrollToTop = true) {
       path = path + '.html';
     }
 
-    console.log('Fetching URL:', path);
+    // For GitHub Pages, construct the correct fetch URL
+    let fetchUrl = path;
+    if (window.location.hostname.includes('github.io')) {
+      const pathSegments = window.location.pathname.split('/').filter(segment => segment);
+      const repoName = pathSegments[0] || '';
+      if (repoName) {
+        fetchUrl = `/${repoName}/${path}`;
+      }
+    }
 
-    const response = await fetch(path);
+    console.log('Fetching URL:', fetchUrl);
+
+    const response = await fetch(fetchUrl);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -81,13 +105,44 @@ async function loadNewContent(url, scrollToTop = true) {
     const parser = new DOMParser();
     const newDoc = parser.parseFromString(html, 'text/html');
 
-    const newContentElement = newDoc.querySelector('.md-content__inner');
-    const mainContentElement = document.querySelector('.md-content__inner');
+    // Try multiple selectors for content container
+    const contentSelectors = [
+      '.md-content__inner',
+      '.md-main__inner',
+      '.md-content',
+      'main',
+      'article',
+      '.content'
+    ];
+
+    let newContentElement = null;
+    let mainContentElement = null;
+
+    // Find the content in the new document
+    for (const selector of contentSelectors) {
+      newContentElement = newDoc.querySelector(selector);
+      if (newContentElement) break;
+    }
+
+    // Find the content in the current document
+    for (const selector of contentSelectors) {
+      mainContentElement = document.querySelector(selector);
+      if (mainContentElement) break;
+    }
 
     if (mainContentElement && newContentElement) {
       mainContentElement.innerHTML = newContentElement.innerHTML;
+      
+      // Re-initialize after content change
+      setTimeout(() => {
+        hidePageTitles();
+        createLeftSidebarTOC();
+        attachNavLinkListeners();
+      }, 100);
+      
     } else {
       console.warn('Cannot find content container in current page or new page.');
+      console.warn('Available selectors in new doc:', Array.from(newDoc.querySelectorAll('*')).map(el => el.className).filter(c => c));
     }
 
     if (scrollToTop) {
@@ -108,6 +163,8 @@ async function loadNewContent(url, scrollToTop = true) {
 function attachNavLinkListeners() {
   const navLinks = document.querySelectorAll('.nav-links a');
   navLinks.forEach(link => {
+    // Remove existing listeners to avoid duplicates
+    link.removeEventListener('click', handleNavClick);
     link.addEventListener('click', handleNavClick);
 
     // Add enhanced button interactions
@@ -198,7 +255,13 @@ function updateActiveLinks(currentPath) {
 
     try {
       const linkPath = new URL(link.href).pathname;
-      if (linkPath === currentPath) {
+      // Normalize paths for comparison
+      const normalizedLinkPath = linkPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
+      const normalizedCurrentPath = currentPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
+      
+      if (normalizedLinkPath === normalizedCurrentPath || 
+          (normalizedCurrentPath.endsWith('/index.html') && normalizedLinkPath === '/') ||
+          (normalizedCurrentPath === '/' && normalizedLinkPath.endsWith('/index.html'))) {
         link.classList.add('active');
 
         // Add active animation for nav buttons
@@ -213,6 +276,7 @@ function updateActiveLinks(currentPath) {
       }
     } catch (e) {
       // In case of invalid URLs or local anchors
+      console.warn('Error comparing URLs:', e);
     }
   });
 }
@@ -227,19 +291,20 @@ let tocState = {
 
 function getCurrentPage() {
   const path = window.location.pathname.toLowerCase();
-  const url = window.location.href.toLowerCase();
+  
+  // Handle GitHub Pages paths
+  const cleanPath = path.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
 
-  // Correctly check the path to match the new URL format
-  if (path === '/' || path.includes('/index.html')) {
+  if (cleanPath === '/' || cleanPath.includes('/index.html')) {
     return 'home';
   }
-  if (path.includes('/about.html')) return 'about';
-  if (path.includes('/projects.html')) return 'projects';
-  if (path.includes('/skills.html')) return 'skills';
-  if (path.includes('/certifications.html')) return 'certifications';
-  if (path.includes('/resume.html')) return 'resume';
-  if (path.includes('/experience.html')) return 'experience';
-  if (path.includes('/achievements.html')) return 'achievements';
+  if (cleanPath.includes('/about.html')) return 'about';
+  if (cleanPath.includes('/projects.html')) return 'projects';
+  if (cleanPath.includes('/skills.html')) return 'skills';
+  if (cleanPath.includes('/certifications.html')) return 'certifications';
+  if (cleanPath.includes('/resume.html')) return 'resume';
+  if (cleanPath.includes('/experience.html')) return 'experience';
+  if (cleanPath.includes('/achievements.html')) return 'achievements';
 
   // Fallback
   return 'home';
@@ -278,7 +343,7 @@ function createLeftSidebarTOC() {
   const sidebar = document.createElement('div');
   sidebar.className = 'custom-sidebar-toc';
 
-  // Completely new TOC toggle button design
+  // TOC toggle button design
   const toggleBtn = document.createElement('button');
   toggleBtn.className = 'toc-toggle-btn';
   toggleBtn.setAttribute('aria-label', 'Toggle Table of Contents');
@@ -410,7 +475,6 @@ function createLeftSidebarTOC() {
   window.updateActiveTOCItem = updateActiveTOCItem;
 
   let scrollTrackingEnabled = true;
-  let scrollTimeout;
 
   function disableScrollTracking() {
     scrollTrackingEnabled = false;
@@ -583,7 +647,7 @@ function createHeader() {
   const nav = document.createElement("div");
   nav.className = "nav-links";
 
-  // Use absolute paths for the links
+  // Use relative paths for the links (without leading slash for GitHub Pages)
   const links = [
     { name: "🏠 Home", url: "index.html", key: "home" },
     { name: "👤 About", url: "about.html", key: "about" },
