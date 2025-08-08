@@ -11,11 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle browser back/forward buttons
   window.addEventListener('popstate', (event) => {
     loadNewContent(window.location.pathname, false);
-    updateActiveLinks(window.location.pathname);
+    // DON'T reset active links on popstate - maintain user's last clicked tab
+    // updateActiveLinks(window.location.pathname); // REMOVED
   });
 
-  // Initial state setup
-  updateActiveLinks(window.location.pathname);
+  // DON'T set initial active state - let all tabs start in default gray state
+  // updateActiveLinks(window.location.pathname); // REMOVED
 });
 
 // Function to handle link clicks and prevent default reload
@@ -64,8 +65,8 @@ async function handleNavClick(event) {
   // Load new content using the original href attribute
   await loadNewContent(targetUrl);
 
-  // Update active state of links with the consistent URL
-  updateActiveLinks(absoluteUrl);
+  // DON'T call updateActiveLinks here - let the click handler manage the active state
+  // updateActiveLinks(absoluteUrl); // REMOVED
 
   // Re-run the TOC and other init functions after content loads
   setTimeout(createLeftSidebarTOC, 100);
@@ -175,7 +176,7 @@ function attachNavLinkListeners() {
   });
 }
 
-// Enhanced button interactions - Fixed for proper tab behavior
+// Enhanced button interactions - Fixed to preserve blue state for active tabs
 function handleButtonHover(event) {
   const button = event.currentTarget;
   // Only add hover effect if the button is NOT active (not blue)
@@ -189,8 +190,14 @@ function handleButtonLeave(event) {
   const button = event.currentTarget;
   // Only reset hover effect if the button is NOT active
   if (!button.classList.contains('active')) {
-    button.style.background = '';
+    button.style.background = 'transparent'; // Changed to transparent
     button.style.transform = 'translateY(0) scale(1)';
+  } else {
+    // If it's active, restore the blue styling
+    button.style.background = '#6366f1';
+    button.style.color = 'white';
+    button.style.transform = 'translateY(-1px) scale(1)';
+    button.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
   }
 }
 
@@ -208,6 +215,7 @@ function handleButtonRelease(event) {
     button.style.background = '#6366f1';
     button.style.color = 'white';
     button.style.transform = 'translateY(-1px) scale(1)';
+    button.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
   } else {
     button.style.transform = 'translateY(-2px) scale(1.02)';
   }
@@ -251,15 +259,15 @@ function handleTocLinkClick(event) {
   }
 }
 
-// FIXED: Function to manage which links are "active" - keep clicked tab blue while on that page
+// FIXED: Function to manage which links are "active" - only activate clicked tab
 function updateActiveLinks(currentPath) {
   const allNavLinks = document.querySelectorAll('.nav-links a');
   const allTocLinks = document.querySelectorAll('.toc-list a');
   
-  // Reset ALL navigation links to default state first
+  // Reset ALL navigation links to default state (no exceptions)
   allNavLinks.forEach(link => {
     link.classList.remove('active');
-    link.style.background = 'transparent';
+    link.style.background = '';
     link.style.color = '#e2e8f0'; // Default light color
     link.style.transform = 'translateY(0) scale(1)';
     link.style.animation = '';
@@ -272,29 +280,8 @@ function updateActiveLinks(currentPath) {
     link.classList.remove('active');
   });
 
-  try {
-    // Find and keep the current page tab blue
-    allNavLinks.forEach(link => {
-      const linkPath = new URL(link.href).pathname;
-      // Normalize paths for comparison
-      const normalizedLinkPath = linkPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
-      const normalizedCurrentPath = currentPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
-      
-      if (normalizedLinkPath === normalizedCurrentPath || 
-          (normalizedCurrentPath.endsWith('/index.html') && normalizedLinkPath === '/') ||
-          (normalizedCurrentPath === '/' && normalizedLinkPath.endsWith('/index.html'))) {
-        
-        // Keep the current page tab blue
-        link.classList.add('active');
-        link.style.background = '#6366f1';
-        link.style.color = 'white';
-        link.style.transform = 'translateY(-1px) scale(1)';
-        link.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
-      }
-    });
-  } catch (e) {
-    console.warn('Error comparing URLs:', e);
-  }
+  // NOTE: Do not automatically set any tab as active based on URL
+  // Tabs will only become active when user clicks on them
 }
 
 // Global state management
@@ -693,21 +680,15 @@ function createHeader() {
       border: 1px solid transparent;
     `;
     
-    // Check if this tab should be blue based on current page
-    if (link.key === currentPage) {
-      a.classList.add('active');
-      a.style.background = '#6366f1';
-      a.style.color = 'white';
-      a.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
-      a.style.transform = 'translateY(-1px) scale(1)';
-    }
+    // DO NOT apply blue styling to any tab initially
+    // All tabs start in default state
 
     a.addEventListener('mouseenter', handleButtonHover);
     a.addEventListener('mouseleave', handleButtonLeave);
     a.addEventListener('mousedown', handleButtonPress);
     a.addEventListener('mouseup', handleButtonRelease);
 
-    // FIXED: Click handler to make clicked tab blue and keep it blue
+    // FIXED: Click handler to only make clicked tab blue
     a.addEventListener('click', function(e) {
       // Reset ALL navigation links to default state first
       const allNavLinks = nav.querySelectorAll('a');
@@ -719,7 +700,7 @@ function createHeader() {
         navLink.style.boxShadow = '';
       });
       
-      // Make ONLY the clicked tab blue and keep it blue
+      // Make ONLY the clicked tab blue
       this.classList.add('active');
       this.style.background = '#6366f1';
       this.style.color = 'white';
@@ -947,7 +928,8 @@ function init() {
     addDynamicStyles();
     setTimeout(hidePageTitles, 100);
     setTimeout(createLeftSidebarTOC, 200);
-    updateActiveLinks(window.location.pathname);
+    // DON'T call updateActiveLinks on init - let all tabs start gray
+    // updateActiveLinks(window.location.pathname); // REMOVED
   } catch (error) {
     console.warn('Portfolio initialization error:', error);
   }
