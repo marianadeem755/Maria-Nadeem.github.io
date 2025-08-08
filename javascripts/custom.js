@@ -52,12 +52,10 @@ async function handleNavClick(event) {
 // Function to fetch and replace page content
 async function loadNewContent(url, scrollToTop = true) {
   try {
-    // Correctly handle root and other pages by creating an absolute path
     let path = url;
     if (url === '/' || url === './') {
-      path = 'index.html';
+      path = 'index.html'; // This line is crucial for the homepage
     } else if (!url.endsWith('.html')) {
-      // Ensure all other links point to a proper .html file
       path = url.startsWith('/') ? url.substring(1) + '.html' : url + '.html';
     }
 
@@ -72,8 +70,6 @@ async function loadNewContent(url, scrollToTop = true) {
     const newDoc = parser.parseFromString(html, 'text/html');
 
     const newContentElement = newDoc.querySelector('.md-content__inner');
-    console.log('Content found in new page:', newContentElement ? 'Yes' : 'No');
-
     const mainContentElement = document.querySelector('.md-content__inner');
     if (mainContentElement && newContentElement) {
       mainContentElement.innerHTML = newContentElement.innerHTML;
@@ -82,15 +78,10 @@ async function loadNewContent(url, scrollToTop = true) {
     }
 
     if (scrollToTop) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
   } catch (error) {
     console.error('Failed to load new content:', error);
-    // Fallback to a full page reload if dynamic load fails
     window.location.href = url;
   }
 }
