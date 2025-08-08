@@ -1,0 +1,666 @@
+/* Modern Consistent Portfolio Theme */
+:root {
+  --primary: #6366f1;
+  --secondary: #0f172a;
+  --accent: #f59e0b;
+  --text: #f8fafc;
+  --bg: #020617;
+  --card: #1e293b;
+  --border: #334155;
+  --glass: rgba(30, 41, 59, 0.8);
+  --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-hover: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Consistent background for all pages */
+body, 
+.md-container,
+.md-main,
+.md-content__inner,
+html {
+  background: linear-gradient(135deg, var(--bg) 0%, #0f172a 100%) !important;
+  color: var(--text) !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  min-height: 100vh;
+}
+
+/* Remove any conflicting backgrounds */
+.md-main__inner,
+.md-content,
+.md-typeset {
+  background: transparent !important;
+}
+
+/* Header - Fixed size and consistent */
+.md-header {
+  background: var(--glass) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3) !important;
+  height: 90px !important;
+  position: fixed !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.md-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), #e11d48, #8b5cf6);
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Hide all default Material theme elements that show page names */
+.md-header__inner,
+.md-header__button,
+.md-header__title,
+.md-header-nav,
+.md-header-nav__title,
+.md-header-nav__button,
+.md-header-nav__topic,
+.md-tabs,
+.md-tabs__list,
+.md-tabs__item,
+.md-tabs__link {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Also hide sidebar and any navigation that shows page names */
+.md-sidebar,
+.md-sidebar--primary,
+.md-sidebar--secondary,
+.md-nav--primary,
+.md-nav--secondary,
+.md-nav__title,
+.md-nav__item,
+.md-nav__link,
+.md-search,
+.md-search__form,
+.md-search__input {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide page titles in content - CRITICAL ADDITION */
+.md-typeset > h1:first-child,
+.md-content__inner > h1:first-child, 
+article > h1:first-child,
+.md-content__title,
+.md-typeset h1:first-of-type {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Ensure other h1s (if needed) still work, but with reduced prominence */
+.md-typeset h1:not(:first-child) {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  margin: 2rem 0 1rem !important;
+  color: var(--primary) !important;
+}
+
+/* Custom header content */
+.custom-header-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 12px 20px !important;
+  height: 90px !important;
+  gap: 10px !important;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-logo:hover {
+  transform: rotate(5deg) scale(1.05);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+.header-title {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  white-space: nowrap;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* COMPLETELY NEW BUTTON STYLING - Modern Pill Buttons */
+.custom-header-content .nav-links a {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 16px !important;
+  min-width: 80px !important;
+  height: 36px !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.3px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  
+  /* Base styling */
+  background: rgba(30, 41, 59, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1.5px solid rgba(99, 102, 241, 0.2) !important;
+  color: #cbd5e1 !important;
+  
+  /* Transitions */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Hover effect */
+.nav-links a:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15)) !important;
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  color: #f8fafc !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* Active state - Completely different look */
+.nav-links a.active {
+  background: linear-gradient(135deg, var(--primary), #8b5cf6) !important;
+  border-color: transparent !important;
+  color: white !important;
+  font-weight: 700 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Active hover effect */
+.nav-links a.active:hover {
+  background: linear-gradient(135deg, #8b5cf6, var(--primary)) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.5) !important;
+}
+
+/* Glassmorphism effect on focus */
+.nav-links a:focus {
+  outline: none !important;
+  background: rgba(99, 102, 241, 0.1) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+}
+
+/* Content area - Adjusted for left TOC */
+.md-content {
+  margin-top: 90px !important;
+  padding: 40px 20px !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background: transparent !important;
+  transition: margin-left 0.3s ease !important;
+}
+
+/* When TOC is open, adjust content margin */
+body.toc-open .md-content {
+  margin-left: 320px !important;
+}
+
+.md-typeset {
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: var(--text) !important;
+}
+
+/* Updated h1 styling - only for non-page-title h1s */
+.md-typeset h1:not(:first-child):not(:first-of-type) {
+  font-size: 3rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 2rem !important;
+  background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-align: center !important;
+}
+
+.md-typeset h2 {
+  background-image: linear-gradient(to right, #4facfe, #00f2fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  font-weight: 700 !important;
+  margin: 2rem 0 1rem !important;
+  font-size: 2rem !important;
+
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.md-typeset h3 {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+  margin: 1.5rem 0 1rem !important;
+}
+
+/* Card styling for content */
+.md-typeset p,
+.md-typeset ul,
+.md-typeset ol {
+  background: var(--card) !important;
+  padding: 24px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--border) !important;
+  margin: 20px 0 !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.3s ease !important;
+}
+
+.md-typeset p:hover,
+.md-typeset ul:hover,
+.md-typeset ol:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* LEFT SIDEBAR TOC STYLES */
+.custom-sidebar-toc {
+  position: fixed !important;
+  top: 90px !important;
+  left: -320px !important;
+  width: 300px !important;
+  height: calc(100vh - 90px) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-right: 1px solid var(--border) !important;
+  padding: 25px 20px !important;
+  z-index: 900 !important;
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow-y: auto !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+.custom-sidebar-toc.open {
+  left: 0 !important;
+}
+
+/* Completely New TOC Toggle Button Styling */
+.toc-toggle-btn {
+  position: fixed !important;
+  top: 50% !important;
+  left: 10px !important;
+  width: 50px !important;
+  height: 50px !important;
+  background: linear-gradient(135deg, var(--primary), #8b5cf6) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  color: white !important;
+  cursor: pointer !important;
+  z-index: 1001 !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0;
+  overflow: hidden;
+}
+
+.toc-toggle-btn:hover {
+  transform: translateY(-50%) scale(1.05) !important;
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6) !important;
+}
+
+.toc-toggle-btn.open {
+  left: 320px !important;
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+
+/* New SVG Icon and Animation Styles */
+.hamburger-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-icon .line {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.toc-header {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 15px !important;
+  border-bottom: 2px solid var(--border) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.toc-header i {
+  color: var(--primary) !important;
+  font-size: 20px !important;
+}
+
+.toc-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.toc-list a {
+  display: block !important;
+  padding: 12px 16px !important;
+  color: #cbd5e1 !important;
+  text-decoration: none !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-left: 3px solid transparent !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-weight: 500 !important;
+}
+
+/* Heading level indentation */
+.toc-list a[data-level="1"] { margin-left: 0px; font-weight: 700; font-size: 15px; }
+.toc-list a[data-level="2"] { margin-left: 16px; font-size: 14px; }
+.toc-list a[data-level="3"] { margin-left: 32px; font-size: 13px; }
+.toc-list a[data-level="4"] { margin-left: 48px; font-size: 12px; }
+.toc-list a[data-level="5"] { margin-left: 64px; font-size: 12px; }
+.toc-list a[data-level="6"] { margin-left: 80px; font-size: 11px; }
+
+.toc-list a:hover {
+  background: rgba(99, 102, 241, 0.15) !important;
+  border-left-color: var(--primary) !important;
+  color: var(--text) !important;
+  transform: translateX(4px) !important;
+}
+
+.toc-list a.active {
+  background: rgba(99, 102, 241, 0.25) !important;
+  border-left-color: var(--primary) !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Custom scrollbar for TOC */
+.custom-sidebar-toc::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-sidebar-toc::-webkit-scrollbar-track {
+  background: rgba(51, 65, 85, 0.3);
+  border-radius: 3px;
+}
+
+.custom-sidebar-toc::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.custom-sidebar-toc::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Footer - Fixed consistent sizing */
+.custom-footer {
+  background: var(--secondary) !important;
+  border-top: 1px solid var(--border) !important;
+  padding: 25px 20px 15px !important;
+  margin-top: 60px !important;
+  text-align: center !important;
+  width: 100% !important;
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+.footer-icons {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 15px !important;
+  margin-bottom: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+.footer-icons a {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  background: var(--card) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--text) !important;
+  font-size: 16px !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid var(--border) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.footer-icons a i {
+  font-size: 16px !important;
+  line-height: 1 !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: block !important;
+}
+
+.footer-icons a:hover {
+  background: var(--primary) !important;
+  transform: translateY(-4px) scale(1.1) !important;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4) !important;
+  color: white !important;
+}
+
+.footer-text {
+  font-size: 14px !important;
+  color: #94a3b8 !important;
+  margin-top: 10px !important;
+}
+
+/* Hide default elements */
+.md-footer,
+.md-sidebar,
+.md-nav--primary {
+  display: none !important;
+}
+
+/* Ensure consistent theme across all pages */
+body * {
+  color: inherit !important;
+}
+
+.md-typeset a {
+  color: var(--primary) !important;
+}
+
+.md-typeset a:hover {
+  color: var(--accent) !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 1024px) {
+  .custom-sidebar-toc {
+    width: 280px !important;
+    left: -300px !important;
+  }
+  
+  .toc-toggle-btn.open {
+    left: 290px !important;
+  }
+  
+  body.toc-open .md-content {
+    margin-left: 300px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-header-content {
+    gap: 8px !important;
+    padding: 10px 15px !important;
+  }
+  
+  .md-header {
+    height: auto !important;
+    min-height: 95px !important;
+  }
+  
+  .nav-links {
+    justify-content: center !important;
+    gap: 6px !important;
+  }
+  
+  .nav-links a {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    min-width: 70px !important;
+    height: 32px !important;
+  }
+  
+  .header-title {
+    font-size: 18px !important;
+  }
+  
+  .header-logo {
+    width: 35px !important;
+    height: 35px !important;
+  }
+  
+  .md-content {
+    margin-top: 110px !important;
+    padding: 20px 15px !important;
+  }
+  
+  .md-typeset h1:not(:first-child):not(:first-of-type) {
+    font-size: 2.2rem !important;
+  }
+  
+  .footer-icons a {
+    width: 35px !important;
+    height: 35px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Mobile TOC adjustments */
+  .custom-sidebar-toc {
+    width: 260px !important;
+    left: -280px !important;
+    top: 110px !important;
+    height: calc(100vh - 110px) !important;
+  }
+  
+  .toc-toggle-btn {
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 16px !important;
+  }
+  
+  .toc-toggle-btn.open {
+    left: 270px !important;
+  }
+  
+  body.toc-open .md-content {
+    margin-left: 280px !important;
+  }
+  
+  .toc-list a {
+    font-size: 13px !important;
+    padding: 10px 14px !important;
+  }
+  
+  .toc-header {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* On very small screens, TOC overlays content */
+  body.toc-open .md-content {
+    margin-left: 0 !important;
+  }
+  
+  .custom-sidebar-toc {
+    width: 240px !important;
+    left: -260px !important;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  .toc-toggle-btn.open {
+    left: 250px !important;
+  }
+  
+  .nav-links a {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+    min-width: 60px !important;
+    height: 28px !important;
+  }
+}
+
+/* Hide the default, small loading lines at the top of the header */
+.md-progress {
+  display: none !important;
+}
