@@ -3,8 +3,7 @@
 site_name: "Maria Nadeem AI ML Engineer"
 site_description: "Showcasing innovative AI & Machine Learning projects and expertise"
 site_author: "Maria Nadeem"
-site_url: "https://marianadeem755.github.io"
-use_directory_urls: false
+site_url: "https://maria-nadeem.github.io/" # This is the correct format for your user page
 
 # Add this line to create a flat file structure (.html files in the root)
 use_directory_urls: false
@@ -52,4 +51,5 @@ extra:
       link: https://github.com/marianadeem755
       name: GitHub
     - icon: fontawesome/brands/linkedin
-      link: https://www.linke
+      link: https://www.linkedin.com/in/marianadeem755
+      name: LinkedIn

@@ -52,18 +52,23 @@ async function handleNavClick(event) {
 // Function to fetch and replace page content
 async function loadNewContent(url, scrollToTop = true) {
   try {
-    let path = url;
-    if (url === '/' || url === './') {
-      path = 'index.html'; // This line is crucial for the homepage
-    } else if (!url.endsWith('.html')) {
-      path = url.startsWith('/') ? url.substring(1) + '.html' : url + '.html';
+    // Determine the base path for fetching content
+    // This removes the leading '/' to make the path relative
+    let path = url.startsWith('/') ? url.substring(1) : url;
+
+    // Handle the root path specifically for index.html
+    if (path === '' || path === '.') {
+      path = 'index.html';
+    } else if (!path.endsWith('.html')) {
+      // Ensure all other links point to a proper .html file
+      path = path + '.html';
     }
 
     console.log('Fetching URL:', path);
 
     const response = await fetch(path);
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     const html = await response.text();
     const parser = new DOMParser();
@@ -71,6 +76,7 @@ async function loadNewContent(url, scrollToTop = true) {
 
     const newContentElement = newDoc.querySelector('.md-content__inner');
     const mainContentElement = document.querySelector('.md-content__inner');
+
     if (mainContentElement && newContentElement) {
       mainContentElement.innerHTML = newContentElement.innerHTML;
     } else {
@@ -80,8 +86,10 @@ async function loadNewContent(url, scrollToTop = true) {
     if (scrollToTop) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
   } catch (error) {
     console.error('Failed to load new content:', error);
+    // Fallback to a full page reload if dynamic load fails
     window.location.href = url;
   }
 }
