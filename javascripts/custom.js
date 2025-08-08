@@ -180,6 +180,8 @@ function handleButtonHover(event) {
   const button = event.currentTarget;
   if (!button.classList.contains('active')) {
     button.style.transform = 'translateY(-2px) scale(1.02)';
+    button.style.background = 'rgba(99, 102, 241, 0.1)';
+    button.style.color = '#e2e8f0';
   }
 }
 
@@ -187,6 +189,8 @@ function handleButtonLeave(event) {
   const button = event.currentTarget;
   if (!button.classList.contains('active')) {
     button.style.transform = 'translateY(0) scale(1)';
+    button.style.background = '';
+    button.style.color = '';
   }
 }
 
@@ -244,14 +248,19 @@ function handleTocLinkClick(event) {
 
 // Function to manage which links are "active" with enhanced animations
 function updateActiveLinks(currentPath) {
-  const allLinks = document.querySelectorAll('.nav-links a, .toc-list a');
-  allLinks.forEach(link => {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  
+  // Handle navigation links
+  navLinks.forEach(link => {
     link.classList.remove('active');
-
-    // Reset nav button styles
-    if (link.closest('.nav-links')) {
-      link.style.transform = 'translateY(0) scale(1)';
-    }
+    
+    // Reset all nav button styles to default
+    link.style.transform = 'translateY(0) scale(1)';
+    link.style.animation = '';
+    link.style.background = '';
+    link.style.color = '';
+    link.style.boxShadow = '';
 
     try {
       const linkPath = new URL(link.href).pathname;
@@ -264,20 +273,26 @@ function updateActiveLinks(currentPath) {
           (normalizedCurrentPath === '/' && normalizedLinkPath.endsWith('/index.html'))) {
         link.classList.add('active');
 
-        // Add active animation for nav buttons
-        if (link.closest('.nav-links')) {
-          link.style.transform = 'translateY(-1px) scale(1)';
-
-          // Add a subtle pulse effect for active button
-          setTimeout(() => {
-            link.style.animation = 'activeButtonPulse 2s ease-in-out infinite';
-          }, 100);
-        }
+        // Only the active nav button gets blue styling
+        link.style.transform = 'translateY(-1px) scale(1)';
+        link.style.background = 'rgba(99, 102, 241, 0.2)';
+        link.style.color = '#6366f1';
+        link.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+        
+        // Add a subtle pulse effect for active button only
+        setTimeout(() => {
+          link.style.animation = 'activeButtonPulse 2s ease-in-out infinite';
+        }, 100);
       }
     } catch (e) {
       // In case of invalid URLs or local anchors
       console.warn('Error comparing URLs:', e);
     }
+  });
+  
+  // Handle TOC links separately (no change needed for TOC)
+  tocLinks.forEach(link => {
+    link.classList.remove('active');
   });
 }
 
@@ -675,11 +690,22 @@ function createHeader() {
     a.addEventListener('mouseup', handleButtonRelease);
 
     a.addEventListener('click', function(e) {
+      // Remove active state from all nav links
       nav.querySelectorAll('a').forEach(navLink => {
         navLink.classList.remove('active');
         navLink.style.animation = '';
+        navLink.style.background = '';
+        navLink.style.color = '';
+        navLink.style.boxShadow = '';
+        navLink.style.transform = 'translateY(0) scale(1)';
       });
+      
+      // Add active state only to clicked link
       this.classList.add('active');
+      this.style.background = 'rgba(99, 102, 241, 0.2)';
+      this.style.color = '#6366f1';
+      this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+      this.style.transform = 'translateY(-1px) scale(1)';
 
       if (window.closeTOC) {
         window.closeTOC();
