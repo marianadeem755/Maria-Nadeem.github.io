@@ -1,6 +1,4 @@
-# **Key Projects & Applications**
-
-## **Portfolio & Code Repositories**
+## **Key Projects & Applications**
 
 ### **GitHub Projects**
 📝 **Description:**  

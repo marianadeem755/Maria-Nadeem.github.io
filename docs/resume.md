@@ -1,7 +1,3 @@
-## 🧑‍💻 **Resume: AI Engineer & Data Scientist**
-
----
-
 ### 📄 **Resume**  
 [View or Download My Resume](https://drive.google.com/file/d/1MRLHOJ9xxfEBxN-edHYHrRVf2FfqFgsq/view?usp=sharing)
 
