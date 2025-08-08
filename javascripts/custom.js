@@ -175,7 +175,7 @@ function attachNavLinkListeners() {
   });
 }
 
-// Enhanced button interactions - Updated for cleaner tab behavior
+// Enhanced button interactions - Fixed for proper tab behavior
 function handleButtonHover(event) {
   const button = event.currentTarget;
   // Only add hover effect if the button is NOT active (not blue)
@@ -251,21 +251,32 @@ function handleTocLinkClick(event) {
   }
 }
 
-// Function to manage which links are "active" with enhanced animations
+// FIXED: Function to manage which links are "active" - prevents unwanted color changes
 function updateActiveLinks(currentPath) {
   const allNavLinks = document.querySelectorAll('.nav-links a');
   const allTocLinks = document.querySelectorAll('.toc-list a');
   
-  // Reset all navigation links to default state
+  // Reset all navigation links to default state (but preserve existing active state)
   allNavLinks.forEach(link => {
-    link.classList.remove('active');
-    // Reset all styles to default (no blue, no special effects)
-    link.style.background = '';
-    link.style.color = '';
-    link.style.transform = 'translateY(0) scale(1)';
-    link.style.animation = '';
-    link.style.boxShadow = '';
-    link.style.borderColor = '';
+    // Only reset if it's not going to be the new active link
+    const linkPath = new URL(link.href).pathname;
+    const normalizedLinkPath = linkPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
+    const normalizedCurrentPath = currentPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
+    
+    const shouldBeActive = normalizedLinkPath === normalizedCurrentPath || 
+                          (normalizedCurrentPath.endsWith('/index.html') && normalizedLinkPath === '/') ||
+                          (normalizedCurrentPath === '/' && normalizedLinkPath.endsWith('/index.html'));
+    
+    if (!shouldBeActive) {
+      // Remove active state only from links that shouldn't be active
+      link.classList.remove('active');
+      link.style.background = '';
+      link.style.color = '';
+      link.style.transform = 'translateY(0) scale(1)';
+      link.style.animation = '';
+      link.style.boxShadow = '';
+      link.style.borderColor = '';
+    }
   });
 
   // Reset TOC links
@@ -274,7 +285,7 @@ function updateActiveLinks(currentPath) {
   });
 
   try {
-    // Find and activate the current page link
+    // Find and activate ONLY the current page link
     allNavLinks.forEach(link => {
       const linkPath = new URL(link.href).pathname;
       // Normalize paths for comparison
@@ -707,24 +718,12 @@ function createHeader() {
     a.addEventListener('mousedown', handleButtonPress);
     a.addEventListener('mouseup', handleButtonRelease);
 
+    // FIXED: Updated click handler to maintain active state properly
     a.addEventListener('click', function(e) {
-      // Remove active class and reset styles from all navigation links
-      nav.querySelectorAll('a').forEach(navLink => {
-        navLink.classList.remove('active');
-        navLink.style.background = '';
-        navLink.style.color = '';
-        navLink.style.animation = '';
-        navLink.style.boxShadow = '';
-        navLink.style.transform = 'translateY(0) scale(1)';
-      });
+      // Don't prevent the default handleNavClick behavior
+      // The updateActiveLinks function will be called after navigation
+      // and will properly set the active state based on the current URL
       
-      // Add active class and blue styling only to clicked tab
-      this.classList.add('active');
-      this.style.background = '#6366f1';
-      this.style.color = 'white';
-      this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
-      this.style.transform = 'translateY(-1px) scale(1)';
-
       if (window.closeTOC) {
         window.closeTOC();
       }
