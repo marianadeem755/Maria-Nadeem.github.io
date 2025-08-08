@@ -4,6 +4,7 @@ site_name: "Maria Nadeem AI ML Engineer"
 site_description: "Showcasing innovative AI & Machine Learning projects and expertise"
 site_author: "Maria Nadeem"
 site_url: "https://marianadeem755.github.io"
+use_directory_urls: false
 
 # Add this line to create a flat file structure (.html files in the root)
 use_directory_urls: false
