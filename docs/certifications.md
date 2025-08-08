@@ -1,0 +1,18 @@
+## 🎓**CERTIFICATIONS:** 
+
+- [Data Science & AI Certification by Codanics](https://codanics.com/)      
+- [Data Scientist in Python Complete Course from Datacamp](https://www.datacamp.com/statement-of-accomplishment/track/a02deb177987e28bfa0c3f4796dfc4360ed36769?raw=1)    
+- [Data Analyst with Python from Datacamp](https://www.datacamp.com/statement-of-accomplishment/track/f7a2c96040dd478e9a8d91fe0845dbfbbb193f66?raw=1)   
+- [Introduction to Python](https://www.datacamp.com/completed/statement-of-accomplishment/course/732ec6ac6bb371420e4bc465adf96510ae0ef063)
+- [Intermediate Python](https://www.datacamp.com/statement-of-accomplishment/course/0be8d9bbaca9f646b5ab162f5921dd06075cde9b?raw=1)
+- [Developing Python Packages](https://www.datacamp.com/completed/statement-of-accomplishment/course/8cceada348df25fcf2f4c2e253d86587bcfef3c8)
+- [Preprocessing for Machine Learning in Python](https://www.datacamp.com/completed/statement-of-accomplishment/course/a9afcc443393bcb54461a2433b24237c504d9959) 
+- [Introduction to Deep Learning with Keras](https://www.datacamp.com/completed/statement-of-accomplishment/course/5a8fc10769756936f8431063e591ecb4f6fb6407)
+- [Intermediate Importing Data in Python](https://www.datacamp.com/completed/statement-of-accomplishment/course/9ab150c1badf641eaeed97aa0dbaad47e4e16df9)
+- [Introduction to SQL](https://www.datacamp.com/completed/statement-of-accomplishment/course/4c8066aa884a10d13659fb4318336e01b4fa8931)
+- [Intermediate SQL](https://www.datacamp.com/completed/statement-of-accomplishment/course/892ddda720f34df94ac283706d956010ef35c81a) 
+- [Joining Data in SQL](https://www.datacamp.com/completed/statement-of-accomplishment/course/78ef4b454ca379173a5408a1a6182242a741e59b)
+- [Foundations of Git](https://www.datacamp.com/completed/statement-of-accomplishment/course/aec0a6944727e3f13efbb1d6234f342eecc35400) 
+- [Machine Learning for Business](https://www.datacamp.com/completed/statement-of-accomplishment/course/926d7449475cfe14435a3a09ca00a1725bff2d3c) 
+- [Deep Learning for Text with PyTorch](https://www.datacamp.com/statement-of-accomplishment/course/a7bdb39bd6a150d0b9f09aeb4fff905e5a8c7f0e?raw=1) 
+- [Deep Learning for Images with PyTorch](https://www.datacamp.com/statement-of-accomplishment/course/0a07e1b4e18d47c34c000702c2546f06ee2f0bbf?raw=1)

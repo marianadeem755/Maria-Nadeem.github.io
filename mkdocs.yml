@@ -1,0 +1,54 @@
+# mkdocs.yml
+
+site_name: "Maria Nadeem AI ML Engineer"
+site_description: "Showcasing innovative AI & Machine Learning projects and expertise"
+site_author: "Maria Nadeem"
+site_url: "https://marianadeem755.github.io"
+
+# Add this line to create a flat file structure (.html files in the root)
+use_directory_urls: false
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Projects: projects.md
+  - Skills: skills.md
+  - Certifications: certifications.md
+  - Resume: resume.md
+  - Experience: experience.md
+  - Awards: achievements.md
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: amber
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+  logo: images/favicon.ico
+  favicon: images/favicon.ico
+
+extra_css:
+  - stylesheets/custom.css
+  - https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js
+  - javascripts/custom.js
+
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/marianadeem755
+      name: GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linke
