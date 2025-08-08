@@ -578,46 +578,14 @@ function createHeader() {
 
   // Use absolute paths for the links
   const links = [
-    {
-      name: "🏠 Home",
-      url: "#home",
-      key: "home"
-    },
-    {
-      name: "👤 About",
-      url: "#about",
-      key: "about"
-    },
-    {
-      name: "💼 Projects",
-      url: "#projects",
-      key: "projects"
-    },
-    {
-      name: "🛠️ Skills",
-      url: "#skills",
-      key: "skills"
-    },
-    {
-      name: "📜 Certifications",
-      url: "#certifications",
-      key: "certifications"
-    },
-    {
-      name: "📄 Resume",
-      url: "#resume",
-      key: "resume"
-    },
-    {
-      name: "💻 Experience",
-      url: "#experience",
-      key: "experience"
-    },
-    {
-      name: "🏆 Achievements",
-      url: "#achievements",
-      key: "achievements"
-    }
+    { name: "🏠 Home", url: "index.html", key: "home" },
+    { name: "👤 About", url: "about.html", key: "about" },
+    { name: "💼 Projects", url: "projects.html", key: "projects" },
+    { name: "🛠️ Skills", url: "skills.html", key: "skills" },
+    { name: "📜 Certifications", url: "certifications.html", key: "certifications" },
+    { name: "📄 Resume", url: "resume.html", key: "resume" },
+    { name: "💻 Experience", url: "experience.html", key: "experience" },
+    { name: "🏆 Achievements", url: "achievements.html", key: "achievements" }
   ];
 
   const currentPage = getCurrentPage();
