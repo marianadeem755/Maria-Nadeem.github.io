@@ -175,33 +175,38 @@ function attachNavLinkListeners() {
   });
 }
 
-// Enhanced button interactions
+// Enhanced button interactions - Updated for cleaner tab behavior
 function handleButtonHover(event) {
   const button = event.currentTarget;
+  // Only add hover effect if the button is NOT active (not blue)
   if (!button.classList.contains('active')) {
-    button.style.transform = 'translateY(-2px) scale(1.02)';
     button.style.background = 'rgba(99, 102, 241, 0.1)';
-    button.style.color = '#e2e8f0';
+    button.style.transform = 'translateY(-2px) scale(1.02)';
   }
 }
 
 function handleButtonLeave(event) {
   const button = event.currentTarget;
+  // Only reset hover effect if the button is NOT active
   if (!button.classList.contains('active')) {
-    button.style.transform = 'translateY(0) scale(1)';
     button.style.background = '';
-    button.style.color = '';
+    button.style.transform = 'translateY(0) scale(1)';
   }
 }
 
 function handleButtonPress(event) {
   const button = event.currentTarget;
-  button.style.transform = 'translateY(0) scale(0.98)';
+  if (!button.classList.contains('active')) {
+    button.style.transform = 'translateY(0) scale(0.98)';
+  }
 }
 
 function handleButtonRelease(event) {
   const button = event.currentTarget;
   if (button.classList.contains('active')) {
+    // Keep the active blue styling
+    button.style.background = '#6366f1';
+    button.style.color = 'white';
     button.style.transform = 'translateY(-1px) scale(1)';
   } else {
     button.style.transform = 'translateY(-2px) scale(1.02)';
@@ -248,21 +253,29 @@ function handleTocLinkClick(event) {
 
 // Function to manage which links are "active" with enhanced animations
 function updateActiveLinks(currentPath) {
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const tocLinks = document.querySelectorAll('.toc-list a');
+  const allNavLinks = document.querySelectorAll('.nav-links a');
+  const allTocLinks = document.querySelectorAll('.toc-list a');
   
-  // Handle navigation links
-  navLinks.forEach(link => {
+  // Reset all navigation links to default state
+  allNavLinks.forEach(link => {
     link.classList.remove('active');
-    
-    // Reset all nav button styles to default
-    link.style.transform = 'translateY(0) scale(1)';
-    link.style.animation = '';
+    // Reset all styles to default (no blue, no special effects)
     link.style.background = '';
     link.style.color = '';
+    link.style.transform = 'translateY(0) scale(1)';
+    link.style.animation = '';
     link.style.boxShadow = '';
+    link.style.borderColor = '';
+  });
 
-    try {
+  // Reset TOC links
+  allTocLinks.forEach(link => {
+    link.classList.remove('active');
+  });
+
+  try {
+    // Find and activate the current page link
+    allNavLinks.forEach(link => {
       const linkPath = new URL(link.href).pathname;
       // Normalize paths for comparison
       const normalizedLinkPath = linkPath.replace(/\/[^/]+\.github\.io\/[^/]+/, '') || '/';
@@ -271,29 +284,18 @@ function updateActiveLinks(currentPath) {
       if (normalizedLinkPath === normalizedCurrentPath || 
           (normalizedCurrentPath.endsWith('/index.html') && normalizedLinkPath === '/') ||
           (normalizedCurrentPath === '/' && normalizedLinkPath.endsWith('/index.html'))) {
-        link.classList.add('active');
-
-        // Only the active nav button gets blue styling
-        link.style.transform = 'translateY(-1px) scale(1)';
-        link.style.background = 'rgba(99, 102, 241, 0.2)';
-        link.style.color = '#6366f1';
-        link.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
         
-        // Add a subtle pulse effect for active button only
-        setTimeout(() => {
-          link.style.animation = 'activeButtonPulse 2s ease-in-out infinite';
-        }, 100);
+        link.classList.add('active');
+        // Apply blue styling only to active tab
+        link.style.background = '#6366f1';
+        link.style.color = 'white';
+        link.style.transform = 'translateY(-1px) scale(1)';
+        link.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
       }
-    } catch (e) {
-      // In case of invalid URLs or local anchors
-      console.warn('Error comparing URLs:', e);
-    }
-  });
-  
-  // Handle TOC links separately (no change needed for TOC)
-  tocLinks.forEach(link => {
-    link.classList.remove('active');
-  });
+    });
+  } catch (e) {
+    console.warn('Error comparing URLs:', e);
+  }
 }
 
 // Global state management
@@ -662,7 +664,7 @@ function createHeader() {
   const nav = document.createElement("div");
   nav.className = "nav-links";
 
-  // Use relative paths for the links (without leading slash for GitHub Pages)
+  // Use relative paths for the links and ensure proper styling
   const links = [
     { name: "🏠 Home", url: "index.html", key: "home" },
     { name: "👤 About", url: "about.html", key: "about" },
@@ -680,8 +682,24 @@ function createHeader() {
     const a = document.createElement("a");
     a.href = link.url;
     a.textContent = link.name;
+    
+    // Set default styling for all tabs (no background, default color)
+    a.style.cssText = `
+      background: transparent;
+      color: #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    `;
+    
+    // Apply blue styling only to current page tab
     if (link.key === currentPage) {
       a.classList.add('active');
+      a.style.background = '#6366f1';
+      a.style.color = 'white';
+      a.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
     }
 
     a.addEventListener('mouseenter', handleButtonHover);
@@ -690,21 +708,21 @@ function createHeader() {
     a.addEventListener('mouseup', handleButtonRelease);
 
     a.addEventListener('click', function(e) {
-      // Remove active state from all nav links
+      // Remove active class and reset styles from all navigation links
       nav.querySelectorAll('a').forEach(navLink => {
         navLink.classList.remove('active');
-        navLink.style.animation = '';
         navLink.style.background = '';
         navLink.style.color = '';
+        navLink.style.animation = '';
         navLink.style.boxShadow = '';
         navLink.style.transform = 'translateY(0) scale(1)';
       });
       
-      // Add active state only to clicked link
+      // Add active class and blue styling only to clicked tab
       this.classList.add('active');
-      this.style.background = 'rgba(99, 102, 241, 0.2)';
-      this.style.color = '#6366f1';
-      this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+      this.style.background = '#6366f1';
+      this.style.color = 'white';
+      this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)';
       this.style.transform = 'translateY(-1px) scale(1)';
 
       if (window.closeTOC) {
