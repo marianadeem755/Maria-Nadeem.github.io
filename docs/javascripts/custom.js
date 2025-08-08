@@ -84,7 +84,10 @@ async function loadNewContent(url, scrollToTop = true) {
     }
 
     if (scrollToTop) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
 
   } catch (error) {
@@ -318,9 +321,9 @@ function createLeftSidebarTOC() {
     const middleLine = toggleBtn.querySelector('.middle-line');
     const bottomLine = toggleBtn.querySelector('.bottom-line');
     if (topLine && middleLine && bottomLine) {
-        topLine.setAttribute('d', 'M6 6L18 18');
-        middleLine.style.opacity = '0';
-        bottomLine.setAttribute('d', 'M6 18L18 6');
+      topLine.setAttribute('d', 'M6 6L18 18');
+      middleLine.style.opacity = '0';
+      bottomLine.setAttribute('d', 'M6 18L18 6');
     }
     document.body.classList.add('toc-open');
     tocState.isOpen = true;
@@ -333,9 +336,9 @@ function createLeftSidebarTOC() {
     const middleLine = toggleBtn.querySelector('.middle-line');
     const bottomLine = toggleBtn.querySelector('.bottom-line');
     if (topLine && middleLine && bottomLine) {
-        topLine.setAttribute('d', 'M4 6H20');
-        middleLine.style.opacity = '1';
-        bottomLine.setAttribute('d', 'M4 18H20');
+      topLine.setAttribute('d', 'M4 6H20');
+      middleLine.style.opacity = '1';
+      bottomLine.setAttribute('d', 'M4 18H20');
     }
     document.body.classList.remove('toc-open');
     tocState.isOpen = false;
@@ -365,7 +368,9 @@ function createLeftSidebarTOC() {
         closeTOC();
       }
     }
-  }, { passive: true });
+  }, {
+    passive: true
+  });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && tocState.isOpen) {
@@ -453,7 +458,9 @@ function createLeftSidebarTOC() {
 
   window.removeEventListener('scroll', window.tocScrollHandler);
   window.tocScrollHandler = scrollHandler;
-  window.addEventListener('scroll', scrollHandler, { passive: true });
+  window.addEventListener('scroll', scrollHandler, {
+    passive: true
+  });
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 768 && tocState.isOpen) {
@@ -571,14 +578,46 @@ function createHeader() {
 
   // Use absolute paths for the links
   const links = [
-    { name: "🏠 Home", url: "/index.html", key: "home" },
-    { name: "👤 About", url: "/about.html", key: "about" },
-    { name: "💼 Projects", url: "/projects.html", key: "projects" },
-    { name: "🛠️ Skills", url: "/skills.html", key: "skills" },
-    { name: "📜 Certifications", url: "/certifications.html", key: "certifications" },
-    { name: "📄 Resume", url: "/resume.html", key: "resume" },
-    { name: "💻 Experience", url: "/experience.html", key: "experience" },
-    { name: "🏆 Achievements", url: "/achievements.html", key: "achievements" }
+    {
+      name: "🏠 Home",
+      url: "/index.html",
+      key: "home"
+    },
+    {
+      name: "👤 About",
+      url: "/about.html",
+      key: "about"
+    },
+    {
+      name: "💼 Projects",
+      url: "/projects.html",
+      key: "projects"
+    },
+    {
+      name: "🛠️ Skills",
+      url: "/skills.html",
+      key: "skills"
+    },
+    {
+      name: "📜 Certifications",
+      url: "/certifications.html",
+      key: "certifications"
+    },
+    {
+      name: "📄 Resume",
+      url: "/resume.html",
+      key: "resume"
+    },
+    {
+      name: "💻 Experience",
+      url: "/experience.html",
+      key: "experience"
+    },
+    {
+      name: "🏆 Achievements",
+      url: "/achievements.html",
+      key: "achievements"
+    }
   ];
 
   const currentPage = getCurrentPage();
@@ -650,10 +689,26 @@ function createFooter() {
   `;
 
   const socialLinks = [
-    { href: "https://github.com/marianadeem755", icon: "fab fa-github", title: "GitHub" },
-    { href: "https://www.linkedin.com/in/marianadeem755", icon: "fab fa-linkedin-in", title: "LinkedIn" },
-    { href: "https://www.kaggle.com/marianadeem755", icon: "fab fa-kaggle", title: "Kaggle" },
-    { href: "mailto:marianadeem755@gmail.com", icon: "fas fa-envelope", title: "Email" }
+    {
+      href: "https://github.com/marianadeem755",
+      icon: "fab fa-github",
+      title: "GitHub"
+    },
+    {
+      href: "https://www.linkedin.com/in/marianadeem755",
+      icon: "fab fa-linkedin-in",
+      title: "LinkedIn"
+    },
+    {
+      href: "https://www.kaggle.com/marianadeem755",
+      icon: "fab fa-kaggle",
+      title: "Kaggle"
+    },
+    {
+      href: "mailto:marianadeem755@gmail.com",
+      icon: "fas fa-envelope",
+      title: "Email"
+    }
   ];
 
   socialLinks.forEach(link => {
