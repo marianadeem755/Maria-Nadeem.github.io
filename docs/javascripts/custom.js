@@ -580,42 +580,42 @@ function createHeader() {
   const links = [
     {
       name: "🏠 Home",
-      url: "/index.html",
+      url: "#home",
       key: "home"
     },
     {
       name: "👤 About",
-      url: "/about.html",
+      url: "#about",
       key: "about"
     },
     {
       name: "💼 Projects",
-      url: "/projects.html",
+      url: "#projects",
       key: "projects"
     },
     {
       name: "🛠️ Skills",
-      url: "/skills.html",
+      url: "#skills",
       key: "skills"
     },
     {
       name: "📜 Certifications",
-      url: "/certifications.html",
+      url: "#certifications",
       key: "certifications"
     },
     {
       name: "📄 Resume",
-      url: "/resume.html",
+      url: "#resume",
       key: "resume"
     },
     {
       name: "💻 Experience",
-      url: "/experience.html",
+      url: "#experience",
       key: "experience"
     },
     {
       name: "🏆 Achievements",
-      url: "/achievements.html",
+      url: "#achievements",
       key: "achievements"
     }
   ];
