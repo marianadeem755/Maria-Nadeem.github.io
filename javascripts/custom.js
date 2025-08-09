@@ -760,7 +760,7 @@ function createFooter() {
       title: "GitHub"
     },
     {
-      href: "https://www.linkedin.com/in/marianadeem755",
+      href: "https://www.linkedin.com/in/maria-nadeem-4994122aa/",
       icon: "fab fa-linkedin-in",
       title: "LinkedIn"
     },
