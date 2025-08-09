@@ -1,6 +1,6 @@
 ## **📊🧠SKILLS & TOOLS:**
 
-- Proficient in **Python programming language for data science and machine learning tasks**.
+- Proficient in **Python programming language for data science, machine learning and Deep learning tasks**.
 - Experienced in utilizing libraries such as **Numpy, Pandas, Seaborn, Matplotlib, Scipy, and Scikit-Learn for 
 efficient data manipulation, visualization, and statistical analysis**.
 - Skilled in **Data preprocessing, data wrangling, and exploratory data analysis (EDA) techniques**.

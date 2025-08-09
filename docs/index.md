@@ -1,6 +1,6 @@
 ## **Welcome to Maria Nadeem's Exciting Journey of AI & Data Science!**
 
-### **Portfolio Links**
+### **Datascience & AI Profiles**
 
 * For exploring inspiring Data Science & AI projects, visit [**Kaggle**](https://www.kaggle.com/marianadeem755) <a href="https://www.kaggle.com/marianadeem755" target="_blank"><img src="https://www.vectorlogo.zone/logos/kaggle/kaggle-icon.svg" alt="Kaggle" width="18" style="vertical-align: middle;"/></a>   
 * Discover various projects and repositories at [**GitHub**](https://github.com/marianadeem755) <a href="https://github.com/marianadeem755" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" width="18" style="vertical-align: middle;"/></a>   

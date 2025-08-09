@@ -3,7 +3,7 @@ Hi, I'm **Maria Nadeem** a passionate Data Enthusiast with a strong desire to cr
 
 ### **My Journey** 🚀
 - I started my journey in data science with a curiosity to understand how data shapes the world around us. 
-- Over one year, I have honed my skills by working on diverse projects ranging from **Machine learning**, **Deep learning**, **time-series forecasting** to **natural language processing**, **web scraping**, **RAG Based Applications and Ai Agents**. 
+- Over one year, I have honed my skills and become [kaggle](https://www.kaggle.com/marianadeem755) 2x Grandmaster by working on diverse projects ranging from **Machine learning**, **Deep learning**, **time-series forecasting** to **natural language processing**, **web scraping**, **RAG Based Applications and Ai Agents**. 
 - My work spans across platforms like **[Kaggle](https://www.kaggle.com/marianadeem755)**, **[GitHub](https://github.com/marianadeem755?tab=repositories)**, **[Hugging Face](https://huggingface.co/maria355)**, **[Streamlit](https://share.streamlit.io/user/marianadeem755)** and **[Linkedin](https://www.linkedin.com/in/maria-nadeem-4994122aa/)** where I share my knowledge and learn from the global data science community.
 
 ### **Core Expertise:** 

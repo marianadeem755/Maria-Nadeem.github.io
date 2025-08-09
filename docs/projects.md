@@ -175,7 +175,7 @@ Amazon Reviews Classifier – TF-IDF & CountVectorizer with 8 ML models for clas
 - **Description:** Perform web scraping using Beautiful Soup & Requests library to extract product data.  
 - Collected and cleaned detailed listings including prices, locations, time and title.  
 - This helps in Analyzing market trends and pricing patterns based on the scraped data.  
-- **Link**: [OLX Scooty & Scooter | Web-Scrapping](https://www.kaggle.com/code/marianadeem755/olx-scooty-scooter-web-scrapping)
+🔗 **Link**: [OLX Scooty & Scooter | Web-Scrapping](https://www.kaggle.com/code/marianadeem755/olx-scooty-scooter-web-scrapping)
 
 
 ---
